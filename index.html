@@ -5280,5 +5280,27 @@
         });
 
     </script>
+<script>
+    // 1. ضع رابط الجسر الخاص بك هنا
+    const myApiUrl = "https://sheetdb.io/api/v1/9whq1riztr1my"; 
+
+    // 2. هذا الجزء يرسل البيانات للسحابة عند الضغط على الزر
+    document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault(); // يمنع الصفحة من التحديث
+        
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData);
+
+        fetch(myApiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ data: [data] })
+        })
+        .then(res => {
+            alert("تم حفظ بياناتك في السحابة بنجاح!");
+            this.reset(); // يفرغ الخانات بعد الإرسال
+        });
+    });
+</script> 
 </body>
 </html>
