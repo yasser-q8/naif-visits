@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام إدارة زيارات المطاعم لمطاعم نايف</title>
+    <title>نظام إدارة زيارات المطاعم - شركة نايف للأغذية</title>
+    <link rel="icon" href="https://i.postimg.cc/NM2zJWZD/NAIF-LOGO.jpg" type="image/jpeg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -31,6 +32,173 @@
             color: #333;
             line-height: 1.6;
             min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* حركات خلفية شاشة الدخول */
+        #loginOverlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            overflow: hidden;
+        }
+
+        #loginOverlay::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            top: -100px;
+            left: -100px;
+            animation: float 20s infinite linear;
+        }
+
+        #loginOverlay::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            bottom: -150px;
+            right: -150px;
+            animation: float 25s infinite linear reverse;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(20px, 20px) rotate(90deg); }
+            50% { transform: translate(0, 40px) rotate(180deg); }
+            75% { transform: translate(-20px, 20px) rotate(270deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: shapesMove 15s infinite linear;
+        }
+
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            right: 15%;
+            animation-delay: -5s;
+            animation-duration: 20s;
+        }
+
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            bottom: 30%;
+            left: 20%;
+            animation-delay: -10s;
+            animation-duration: 18s;
+        }
+
+        @keyframes shapesMove {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(100px, 100px) rotate(360deg); }
+        }
+
+        #loginBox {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            width: 400px;
+            max-width: 90%;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            direction: rtl;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .login-logo {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .login-logo img {
+            height: 80px;
+            width: auto;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .login-logo h2 {
+            color: #1a2980;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .login-logo p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        #loginBox h3 {
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-size: 1.4rem;
+        }
+
+        #loginBox input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        #loginBox input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(216, 51, 74, 0.2);
+        }
+
+        #loginBox button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        #loginError {
+            color: red;
+            display: none;
+            margin-top: 10px;
+            text-align: center;
         }
 
         .container {
@@ -635,12 +803,6 @@
             }
         }
 
-        #loginOverlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:99999;}
-        #loginBox{background:white;padding:22px;border-radius:8px;width:360px;max-width:90%;box-shadow:0 8px 24px rgba(0,0,0,0.3);direction:rtl;text-align:right}
-        #loginBox h3{margin-bottom:12px;color:var(--primary)}
-        #loginBox input{width:100%;padding:10px;margin:8px 0;border:1px solid #ddd;border-radius:6px}
-        #loginBox button{padding:10px 14px;border:none;border-radius:6px;cursor:pointer}
-        #loginError{color:red;display:none;margin-top:8px}
         .user-action-btn{margin-left:6px}
         .manager-actions button{margin-left:6px}
 
@@ -675,37 +837,18 @@
             font-size: 0.9rem;
         }
 
-        .sync-status {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: var(--success);
-            color: white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            font-size: 0.9rem;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            display: none;
-        }
-        .sync-status.error {
-            background: var(--danger);
-        }
-        .sync-status.warning {
-            background: var(--warning);
-        }
-
+        /* توقيع المطور */
         .signature-card {
             position: fixed;
             bottom: 20px;
             left: 20px;
-            background: linear-gradient(135deg, #FF746C, #FF6E00, #80EF80,#2196F3);
+            background: linear-gradient(135deg, #FF6E00, #2196F3);
             color: white;
-            padding: 15px 25px;
-            border-radius: 12px;
+            padding: 10.5px 17.5px;
+            border-radius: 8.5px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-size: 1.1rem;
+            font-size: 0.8rem;
             font-weight: 600;
             z-index: 1000;
             animation: float 6s ease-in-out infinite;
@@ -713,49 +856,102 @@
             cursor: pointer;
             border: 2px solid rgba(255,255,255,0.2);
         }
-        .signature-card:hover { transform: scale(1.05); box-shadow: 0 12px 35px rgba(0,0,0,0.4); }
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
+
+        .signature-card:hover { 
+            transform: scale(1.05); 
+            box-shadow: 0 12px 35px rgba(0,0,0,0.4); 
+        }
+
+        @keyframes float { 
+            0% { transform: translateY(0px); } 
+            50% { transform: translateY(-15px); } 
+            100% { transform: translateY(0px); } 
+        }
+
         .signature-card::before {
             content: '';
             position: absolute;
             top: -2px; left: -2px; right: -2px; bottom: -2px;
-            background: linear-gradient(135deg, #FF746C, #FF6E00, #80EF80,#2196F3);
+            background: linear-gradient(135deg, #80EF80, #2196F3);
             border-radius: 14px;
             z-index: -1;
             animation: borderGlow 3s linear infinite;
             background-size: 400%;
         }
-        @keyframes borderGlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        .signature-card .name { font-size: 1.3rem; font-weight: 700; margin-bottom: 5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
-        .signature-card .title { font-size: 0.9rem; opacity: 0.9; font-weight: 500; }
-        @media (max-width: 768px) { .signature-card { position: relative; bottom: auto; left: auto; margin: 20px auto 0; width: fit-content; animation: none; } .signature-card:hover { transform: none; } }
+
+        @keyframes borderGlow { 
+            0% { background-position: 0% 50%; } 
+            50% { background-position: 100% 50%; } 
+            100% { background-position: 0% 50%; } 
+        }
+
+        .signature-card .name { 
+            font-size: 0.95rem; 
+            font-weight: 700; 
+            margin-bottom: 5px; 
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3); 
+        }
+
+        .signature-card .title { 
+            font-size: 0.7rem; 
+            opacity: 0.9; 
+            font-weight: 500; 
+        }
+
+        @media (max-width: 768px) { 
+            .signature-card { 
+                position: relative; 
+                bottom: auto; 
+                left: auto; 
+                margin: 20px auto 0; 
+                width: fit-content; 
+                animation: none; 
+            } 
+            .signature-card:hover { 
+                transform: none; 
+            } 
+        }
+
+        @media print {
+            .signature-card {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
     <div id="loginOverlay">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
         <div id="loginBox">
+            <div class="login-logo">
+                <img src="https://i.postimg.cc/NM2zJWZD/NAIF-LOGO.jpg" alt="شعار شركة نايف للأغذية">
+                <h2>شركة نايف للأغذية</h2>
+                <p>نظام إدارة زيارات المطاعم</p>
+            </div>
             <h3>تسجيل الدخول</h3>
             <label>اسم المستخدم</label>
             <input id="loginUsername" placeholder="اسم المستخدم (حساسية الأحرف غير مفروضة)">
             <label>كلمة المرور</label>
             <input id="loginPassword" type="password" placeholder="كلمة المرور">
-            <div style="display:flex;gap:8px;margin-top:10px;">
-                <button id="loginSubmit" class="btn btn-primary">دخول</button>
+            <div style="display:flex;gap:8px;margin-top:15px;">
+                <button id="loginSubmit" class="btn btn-primary" style="flex:1;">دخول</button>
                 <button id="loginCancel" class="btn btn-warning">إلغاء</button>
             </div>
             <div id="loginError">اسم المستخدم أو كلمة المرور غير صحيحة</div>
         </div>
     </div>
 
-    <div id="syncStatus" class="sync-status"></div>
-
     <header>
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <img id="logoImage" src="https://scontent.fkwi10-2.fna.fbcdn.net/v/t39.30808-1/274337806_4811171878951383_6292867314485568980_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=105&ccb=1-7&_nc_sid=2d3e12&_nc_ohc=gfSsyB-y4oEQ7kNvwFSOgbN&_nc_oc=AdnJP2KhOSzQE9cgCu1bxpM3HudIMgkQY6ZCvnn-e3Su12-i5FvOaV_l0YOuZTW-pw4&_nc_zt=24&_nc_ht=scontent.fkwi10-2.fna&_nc_gid=tCHABk-P_H4zvDiygcRwOg&oh=00_Afj4PzMWS7LdUQS3gRx9ndssLzfIX2KbScG-dYfRkwIlCA&oe=6924C92B" alt="شعار مطاعم نايف">
+                    <img id="logoImage" src="https://i.postimg.cc/NM2zJWZD/NAIF-LOGO.jpg" alt="شعار شركة نايف للأغذية">
                     <i class="fas fa-utensils"></i>
-                    <h1>نظام إدارة زيارات المطاعم لمطاعم نايف</h1>
+                    <h1>نظام إدارة زيارات المطاعم - شركة نايف للأغذية</h1>
                 </div>
                 <div class="user-info">
                     <i class="fas fa-user-circle"></i>
@@ -824,9 +1020,6 @@
                     </button>
                     <button class="btn btn-success" id="restoreData">
                         <i class="fas fa-upload"></i> استرداد نسخة
-                    </button>
-                    <button class="btn btn-primary" id="syncWithGoogleSheets" style="display:none;">
-                        <i class="fab fa-google"></i> مزامنة مع Google Sheets
                     </button>
                 </div>
             </div>
@@ -915,9 +1108,9 @@
                         <label for="visitYear">السنة</label>
                         <select id="visitYear" required>
                             <option value="">-- اختر السنة --</option>
-                            <option value="2024">2024</option>
-                            <option value="2025">2025</option>
                             <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
                         </select>
                     </div>
                     <div class="filter-group">
@@ -1065,9 +1258,9 @@
                         <label for="reportYear">السنة</label>
                         <select id="reportYear">
                             <option value="all">جميع السنوات</option>
-                            <option value="2024">2024</option>
-                            <option value="2025">2025</option>
                             <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
                         </select>
                     </div>
                     <div class="filter-group">
@@ -1233,9 +1426,9 @@
                         <label for="historyYear">السنة</label>
                         <select id="historyYear">
                             <option value="all">جميع السنوات</option>
-                            <option value="2024">2024</option>
-                            <option value="2025">2025</option>
                             <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
                         </select>
                     </div>
                     </div>
@@ -1266,64 +1459,7 @@
     <button class="btn btn-success" id="settingsRestoreData">
         <i class="fas fa-upload"></i> استرداد نسخة
     </button>
-    <button class="btn btn-primary" id="settingsSyncWithGoogleSheets">
-        <i class="fab fa-google"></i> مزامنة مع Google Sheets
-    </button>
 </div>
-                    <div style="margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
-                        <h4 style="color: var(--primary); margin-bottom: 10px;">
-                            <i class="fas fa-sync-alt"></i> المزامنة التلقائية
-                        </h4>
-                        <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
-                            <label style="margin: 0;">
-                                <input type="checkbox" id="autoSyncToggle"> تفعيل المزامنة التلقائية كل 5 دقائق
-                            </label>
-                            <span id="autoSyncStatus" style="color: #666; font-size: 0.9rem;">
-                                (غير مفعل)
-                            </span>
-                            <button class="btn btn-sm btn-info" id="testAutoSync" style="padding: 5px 10px;">
-                                <i class="fas fa-play"></i> اختبار الآن
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- إعدادات Google Sheets -->
-            <div class="settings-section">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fab fa-google"></i> إعدادات Google Sheets
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="googleScriptUrlDisplay">رابط Google Apps Script:</label>
-                        <input type="text" id="googleScriptUrlDisplay" 
-                               readonly
-                               style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: #f5f5f5;">
-                    </div>
-                    <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
-                        <button class="btn btn-primary" id="setupGoogleScript">
-                            <i class="fas fa-edit"></i> تعيين/تغيير الرابط
-                        </button>
-                        <button class="btn btn-success" id="testGoogleConnection">
-                            <i class="fas fa-wifi"></i> اختبار الاتصال
-                        </button>
-                        <button class="btn btn-warning" id="clearGoogleUrl">
-                            <i class="fas fa-trash"></i> مسح الرابط
-                        </button>
-                    </div>
-                    <div style="margin-top: 15px; padding: 10px; background: #E6F7FF; border-radius: 5px; border-right: 4px solid #4AB9DC;">
-                        <h4 style="margin: 0 0 10px 0; color: #2A6B8F;">تعليمات الإعداد:</h4>
-                        <ol style="margin: 0; padding-right: 20px; color: #666; font-size: 0.9rem;">
-                            <li>أنشئ مشروع Google Apps Script جديد</li>
-                            <li>الصق كود معالجة البيانات</li>
-                            <li>انشر كـ "تطبيق ويب"</li>
-                            <li>عيّن الصلاحيات لـ "أي شخص"</li>
-                            <li>انسخ رابط النشر وأدخله هنا</li>
-                        </ol>
-                    </div>
                 </div>
             </div>
 
@@ -1487,7 +1623,7 @@
             </div>
             <div class="form-group">
                 <label for="newAreaManagerName">اسم مدير المنطقة</label>
-                <input type="text" id="newAreaManagerName" placeholder="أدخل اسم مدير المنطقة">
+                                <input type="text" id="newAreaManagerName" placeholder="أدخل اسم مدير المنطقة">
             </div>
             <div class="form-group">
                 <label for="newAreaManagerOperations">مدير العمليات التابع له</label>
@@ -1626,39 +1762,6 @@
         </div>
     </div>
 
-    <!-- نموذج إعدادات Google Script -->
-    <div class="modal" id="googleScriptModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">إعدادات Google Apps Script</h3>
-                <button class="close-modal">&times;</button>
-            </div>
-            <div class="form-group">
-                <label for="googleScriptUrlInput">رابط Google Apps Script:</label>
-                <input type="text" id="googleScriptUrlInput" 
-                       placeholder="https://script.google.com/macros/s/AKfycbx9q59JWlm-dPdGunq2nDHuMFj80QD3-9CwqmE5ViSaw8WlYWsgWmouucfIiIoaj9Y/exec" 
-                       style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-            </div>
-            <div style="margin-top: 15px; padding: 10px; background: #E6F7FF; border-radius: 5px;">
-                <h4 style="margin: 0 0 10px 0; color: #2A6B8F;">كيفية الحصول على الرابط:</h4>
-                <ol style="margin: 0; padding-right: 20px; color: #666; font-size: 0.9rem;">
-                    <li>اذهب إلى <a href="https://script.google.com" target="_blank">script.google.com</a></li>
-                    <li>أنشئ مشروع جديد</li>
-                    <li>الصق كود معالجة البيانات</li>
-                    <li>انشر → إدارة النشر → إنشاء نشر جديد</li>
-                    <li>اختر "تطبيق ويب" وعيّن الصلاحيات لـ "أي شخص"</li>
-                    <li>انسخ رابط النشر وأدخله هنا</li>
-                </ol>
-            </div>
-            <div style="margin-top: 20px; display: flex; gap: 10px;">
-                <button class="btn btn-success" id="confirmGoogleScriptUrl">
-                    <i class="fas fa-save"></i> حفظ الرابط
-                </button>
-                <button class="btn btn-primary close-modal">إلغاء</button>
-            </div>
-        </div>
-    </div>
-
     <!-- توقيع المطور -->
     <div class="signature-card">
         <div class="name">Yasser Elkhateeb</div>
@@ -1667,16 +1770,12 @@
 
     <footer>
         <div class="container">
-            <p>نظام إدارة زيارات المطاعم لمطاعم نايف - تم التطوير خصيصًا لمتطلبات إدارة المطاعم بدولة الكويت</p>
-            <p>© 2025 جميع الحقوق محفوظة</p>
+            <p>نظام إدارة زيارات المطاعم - شركة نايف للأغذية - تم التطوير خصيصًا لمتطلبات إدارة المطاعم بدولة الكويت</p>
+            <p>© 2026 جميع الحقوق محفوظة</p>
         </div>
     </footer>
 
     <script>
-        // ===== إعدادات Google Apps Script =====
-        // تم تعيين الرابط مسبقاً في الملف كما طلبت
-        let GOOGLE_SCRIPT_URL = 'https://yasserelkhateeb.com';
-        
         // ===== بيانات التطبيق =====
         let restaurantsData = [
             { name: "Faiha", areaManager: "Hegazy", operationsManager: "Tarek.B" },
@@ -1822,17 +1921,11 @@
         // بيانات سجل النشاطات
         let userActivities = [];
 
-        // ===== إعدادات المزامنة =====
-        let autoSyncInterval = null;
-        let isAutoSyncEnabled = false;
-        let currentUser = null;
-        let isOnline = true;
-        let pendingSyncOperations = [];
-
         // متغيرات للإعدادات
         let currentTransferRestaurant = null;
         let currentEditVisitId = null;
         let currentTransferAreaManager = null;
+        let currentUser = null;
 
         // ===== دوال التخزين المحلي =====
         function saveUsers() {
@@ -1884,299 +1977,6 @@
                     if (data.usersData) usersData = data.usersData;
                     if (data.userActivities) userActivities = data.userActivities;
                 } catch(e){}
-            }
-        }
-
-        function loadGoogleScriptUrl() {
-            // استخدام الرابط المدمج في الملف
-            document.getElementById('googleScriptUrlDisplay').value = GOOGLE_SCRIPT_URL;
-        }
-
-        function loadAutoSyncSetting() {
-            const autoSync = localStorage.getItem('auto_sync_enabled');
-            if (autoSync === 'true') {
-                isAutoSyncEnabled = true;
-                document.getElementById('autoSyncToggle').checked = true;
-                startAutoSync();
-                updateAutoSyncStatus('مفعل - يعمل كل 5 دقائق');
-            } else {
-                updateAutoSyncStatus('غير مفعل');
-            }
-        }
-
-        // ===== نظام المزامنة التلقائية =====
-        function startAutoSync() {
-            if (autoSyncInterval) {
-                clearInterval(autoSyncInterval);
-            }
-            autoSyncInterval = setInterval(autoSyncWithGoogleSheets, 5 * 60 * 1000); // كل 5 دقائق
-        }
-
-        function stopAutoSync() {
-            if (autoSyncInterval) {
-                clearInterval(autoSyncInterval);
-                autoSyncInterval = null;
-            }
-        }
-
-        async function autoSyncWithGoogleSheets() {
-            if (!GOOGLE_SCRIPT_URL || !isAutoSyncEnabled || !isOnline) return;
-            
-            try {
-                showSyncNotification('🔄 جاري المزامنة التلقائية...', 'warning');
-                
-                const dataToSync = {
-                    action: 'autoSync',
-                    visitsData: visitsData,
-                    restaurantsData: restaurantsData,
-                    problemsData: problemsData,
-                    usersData: usersData,
-                    userActivities: userActivities,
-                    timestamp: new Date().toISOString(),
-                    syncUser: currentUser ? currentUser.name : 'نظام تلقائي',
-                    version: '2.0',
-                    autoSync: true
-                };
-
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(dataToSync)
-                });
-
-                if (response.ok) {
-                    const result = await response.json();
-                    if (result.success) {
-                        showSyncNotification('✅ تمت المزامنة التلقائية بنجاح', 'success');
-                        logActivity('مزامنة تلقائية ناجحة', 
-                            `تم مزامنة ${visitsData.length} زيارة تلقائياً`);
-                    }
-                }
-            } catch (error) {
-                console.log('❌ خطأ في المزامنة التلقائية:', error);
-                showSyncNotification('❌ فشلت المزامنة التلقائية', 'error');
-            }
-        }
-
-        // ===== المزامنة الفورية بعد كل عملية =====
-        async function syncAfterOperation(operationType, data) {
-            if (!GOOGLE_SCRIPT_URL || !isOnline) {
-                // إذا لم يكن هناك اتصال، احفظ العملية للتنفيذ لاحقاً
-                pendingSyncOperations.push({type: operationType, data: data, timestamp: new Date().toISOString()});
-                saveAllData();
-                return;
-            }
-            
-            try {
-                const syncData = {
-                    action: 'syncOperation',
-                    operationType: operationType,
-                    data: data,
-                    visitsData: visitsData,
-                    restaurantsData: restaurantsData,
-                    problemsData: problemsData,
-                    usersData: usersData,
-                    userActivities: userActivities,
-                    timestamp: new Date().toISOString(),
-                    syncUser: currentUser ? currentUser.name : 'غير معروف'
-                };
-
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(syncData)
-                });
-
-                if (response.ok) {
-                    const result = await response.json();
-                    if (result.success) {
-                        console.log(`✅ تمت مزامنة عملية ${operationType} بنجاح`);
-                    }
-                }
-            } catch (error) {
-                console.log(`❌ خطأ في مزامنة عملية ${operationType}:`, error);
-                // في حالة الخطأ، احفظ العملية للتنفيذ لاحقاً
-                pendingSyncOperations.push({type: operationType, data: data, timestamp: new Date().toISOString()});
-                saveAllData();
-            }
-        }
-
-        // ===== استرداد البيانات من Google Sheets عند فتح التطبيق =====
-        async function loadDataFromGoogleSheets() {
-            if (!GOOGLE_SCRIPT_URL || !isOnline) {
-                loadAllData(); // تحميل البيانات المحلية إذا لم يكن هناك اتصال
-                return;
-            }
-            
-            try {
-                showSyncNotification('🔄 جاري تحميل البيانات من السحابة...', 'warning');
-                
-                const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getData&timestamp=${Date.now()}`);
-                
-                if (response.ok) {
-                    const result = await response.json();
-                    
-                    if (result.success && result.data) {
-                        // تحديث البيانات المحلية ببيانات السحابة
-                        if (result.data.restaurantsData) restaurantsData = result.data.restaurantsData;
-                        if (result.data.visitsData) visitsData = result.data.visitsData;
-                        if (result.data.problemsData) problemsData = result.data.problemsData;
-                        if (result.data.usersData) usersData = result.data.usersData;
-                        if (result.data.userActivities) userActivities = result.data.userActivities;
-                        
-                        // استخراج مدراء المناطق والعمليات من بيانات المطاعم
-                        areaManagers = [...new Set(restaurantsData.map(r => r.areaManager))];
-                        operationsManagers = [...new Set(restaurantsData.map(r => r.operationsManager))];
-                        
-                        // حفظ البيانات محلياً
-                        saveAllData();
-                        
-                        // تحديث الواجهة
-                        updateAllUI();
-                        
-                        showSyncNotification('✅ تم تحميل البيانات من السحابة بنجاح', 'success');
-                        logActivity('تحميل البيانات من السحابة', 'تم تحميل أحدث البيانات من Google Sheets');
-                    }
-                }
-            } catch (error) {
-                console.log('❌ خطأ في تحميل البيانات من السحابة:', error);
-                loadAllData(); // استخدام البيانات المحلية في حالة الخطأ
-                showSyncNotification('⚠️ استخدام البيانات المحلية', 'warning');
-            }
-        }
-
-        // ===== معالجة العمليات المعلقة عند استعادة الاتصال =====
-        async function processPendingSyncOperations() {
-            if (pendingSyncOperations.length === 0 || !isOnline) return;
-            
-            try {
-                showSyncNotification('🔄 جاري معالجة العمليات المعلقة...', 'warning');
-                
-                for (const operation of pendingSyncOperations) {
-                    await syncAfterOperation(operation.type, operation.data);
-                }
-                
-                // مسح العمليات المعلقة بعد معالجتها
-                pendingSyncOperations = [];
-                saveAllData();
-                
-                showSyncNotification('✅ تمت معالجة جميع العمليات المعلقة', 'success');
-            } catch (error) {
-                console.log('❌ خطأ في معالجة العمليات المعلقة:', error);
-            }
-        }
-
-        // ===== مراقبة حالة الاتصال =====
-        function setupConnectionMonitoring() {
-            window.addEventListener('online', () => {
-                isOnline = true;
-                showSyncNotification('✅ تم استعادة الاتصال بالإنترنت', 'success');
-                // معالجة العمليات المعلقة عند استعادة الاتصال
-                processPendingSyncOperations();
-                // تحميل أحدث البيانات من السحابة
-                loadDataFromGoogleSheets();
-            });
-            
-            window.addEventListener('offline', () => {
-                isOnline = false;
-                showSyncNotification('⚠️ فقدان الاتصال بالإنترنت - استخدام البيانات المحلية', 'warning');
-            });
-            
-            // التحقق الأولي من حالة الاتصال
-            isOnline = navigator.onLine;
-        }
-
-        // ===== تحديث جميع عناصر الواجهة =====
-        function updateAllUI() {
-            loadDashboardStats();
-            loadRecentVisits();
-            loadMyRestaurants();
-            loadReportData();
-            loadProblems();
-            loadVisitsHistory();
-            loadSettingsData();
-            populateRestaurantSelects();
-            populateManagerSelects();
-            populateVisitAreaManagerSelect();
-        }
-
-        // ===== دوال مساعدة =====
-        function getElementSafe(id) {
-            const element = document.getElementById(id);
-            if (!element) {
-                console.warn(`Element with id '${id}' not found`);
-            }
-            return element;
-        }
-
-        function showSyncNotification(message, type = 'success') {
-            const syncStatus = document.getElementById('syncStatus');
-            syncStatus.textContent = message;
-            syncStatus.className = `sync-status ${type}`;
-            syncStatus.style.display = 'block';
-            
-            setTimeout(() => {
-                syncStatus.style.display = 'none';
-            }, 5000);
-        }
-
-        function updateAutoSyncStatus(status) {
-            document.getElementById('autoSyncStatus').textContent = `(${status})`;
-        }
-
-        // ===== دوال Google Sheets =====
-        function showGoogleScriptSetup() {
-            document.getElementById('googleScriptModal').style.display = 'flex';
-            document.getElementById('googleScriptUrlInput').value = GOOGLE_SCRIPT_URL;
-        }
-
-        function confirmGoogleScriptUrl() {
-            const url = document.getElementById('googleScriptUrlInput').value.trim();
-            if (url && url.includes('google.com')) {
-                GOOGLE_SCRIPT_URL = url;
-                localStorage.setItem('google_script_url', url);
-                document.getElementById('googleScriptUrlDisplay').value = url;
-                document.getElementById('googleScriptModal').style.display = 'none';
-                showSyncNotification('✅ تم حفظ رابط Google Script بنجاح', 'success');
-                logActivity('تعيين رابط Google Script', 'تم حفظ رابط المزامنة الجديد');
-            } else {
-                alert('⚠️ يرجى إدخال رابط Google Script صحيح');
-            }
-        }
-
-        async function testGoogleConnection() {
-            if (!GOOGLE_SCRIPT_URL) {
-                alert('❌ لم يتم تعيين رابط Google Script');
-                showGoogleScriptSetup();
-                return;
-            }
-
-            const testBtn = document.getElementById('testGoogleConnection');
-            const originalText = testBtn.innerHTML;
-            testBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الاختبار...';
-            testBtn.disabled = true;
-
-            try {
-                const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=test&timestamp=${Date.now()}`);
-                if (response.ok) {
-                    showSyncNotification('✅ الاتصال مع Google Sheets نشط', 'success');
-                } else {
-                    throw new Error('فشل في الاتصال');
-                }
-            } catch (error) {
-                showSyncNotification('❌ فشل اختبار الاتصال', 'error');
-            } finally {
-                testBtn.innerHTML = originalText;
-                testBtn.disabled = false;
-            }
-        }
-
-        function clearGoogleUrl() {
-            if (confirm('هل تريد مسح رابط Google Script الحالي؟')) {
-                GOOGLE_SCRIPT_URL = '';
-                localStorage.removeItem('google_script_url');
-                document.getElementById('googleScriptUrlDisplay').value = '';
-                showSyncNotification('تم مسح الرابط', 'warning');
             }
         }
 
@@ -2585,7 +2385,7 @@
 
         // ===== إدارة الشعار =====
         function loadLogo() {
-            const logoUrl = localStorage.getItem('logo_url') || "https://shorturl.at/o48Nh";
+            const logoUrl = localStorage.getItem('logo_url') || "https://i.postimg.cc/NM2zJWZD/NAIF-LOGO.jpg";
             if (logoUrl) {
                 document.getElementById('logoImage').src = logoUrl;
                 document.getElementById('logoImage').style.display = 'block';
@@ -2700,7 +2500,7 @@
                 
                 updateAllUI();
                 
-                showSyncNotification('✅ تم مسح جميع البيانات بنجاح', 'success');
+                alert('✅ تم مسح جميع البيانات بنجاح');
                 logActivity('مسح جميع البيانات', 'تم مسح جميع بيانات الزيارات والمشاكل');
             }
         }
@@ -3432,7 +3232,6 @@
                 loadProblems();
                 loadDashboardStats();
                 logActivity('حل مشكلة', `تم حل المشكلة في المطعم ${problem.restaurant} - نوع المشكلة: ${getProblemTypeText(problem.type)}`);
-                syncAfterOperation('resolveProblem', problem);
             }
         }
 
@@ -3445,7 +3244,6 @@
                 loadProblems();
                 loadDashboardStats();
                 logActivity('حذف مشكلة', `تم حذف المشكلة من المطعم ${problem.restaurant} - نوع المشكلة: ${getProblemTypeText(problem.type)}`);
-                syncAfterOperation('deleteProblem', problem);
             }
         }
 
@@ -3756,7 +3554,6 @@
             document.querySelectorAll('.modal').forEach(m=>m.remove());
             alert('تمت إضافة المستخدم');
             logActivity('إضافة مستخدم', `تم إضافة المستخدم ${name} بدور ${roleText(role)}`);
-            syncAfterOperation('addUser', newUser);
         }
 
         function editUser(id){
@@ -3886,7 +3683,6 @@
             document.querySelectorAll('.modal').forEach(m=>m.remove());
             alert('تم تعديل المستخدم');
             logActivity('تعديل مستخدم', `تم تعديل بيانات المستخدم ${name}`);
-            syncAfterOperation('editUser', u);
         }
 
         function deleteUser(id){
@@ -3899,7 +3695,6 @@
             loadUsersList();
             alert('تم حذف المستخدم');
             logActivity('حذف مستخدم', `تم حذف المستخدم ${user.name}`);
-            syncAfterOperation('deleteUser', user);
         }
 
         // ===== دوال إدارة المطاعم والمديرين =====
@@ -4044,7 +3839,6 @@
             loadSettingsData();
             alert('تم إضافة مدير العمليات بنجاح');
             logActivity('إضافة مدير عمليات', `تم إضافة مدير العمليات ${name}`);
-            syncAfterOperation('addOperationsManager', {name: name});
         }
 
         function deleteOperationsManager(managerName) {
@@ -4055,7 +3849,6 @@
                 populateVisitAreaManagerSelect();
                 alert('تم حذف مدير العمليات بنجاح');
                 logActivity('حذف مدير عمليات', `تم حذف مدير العمليات ${managerName}`);
-                syncAfterOperation('deleteOperationsManager', {name: managerName});
             }
         }
 
@@ -4110,7 +3903,6 @@
             loadSettingsData();
             alert('تم إضافة مدير المنطقة بنجاح');
             logActivity('إضافة مدير منطقة', `تم إضافة مدير المنطقة ${name} التابع لـ ${operationsManager}`);
-            syncAfterOperation('addAreaManager', {name: name, operationsManager: operationsManager});
         }
 
         function deleteAreaManager(managerName) {
@@ -4123,7 +3915,6 @@
                 populateVisitAreaManagerSelect();
                 alert('تم حذف مدير المنطقة بنجاح');
                 logActivity('حذف مدير منطقة', `تم حذف مدير المنطقة ${managerName}`);
-                syncAfterOperation('deleteAreaManager', {name: managerName});
             }
         }
 
@@ -4193,7 +3984,6 @@
             loadSettingsData();
             alert('تم إضافة المطعم بنجاح');
             logActivity('إضافة مطعم', `تم إضافة المطعم ${name} - مدير المنطقة: ${areaManager} - مدير العمليات: ${operationsManager}`);
-            syncAfterOperation('addRestaurant', {name: name, areaManager: areaManager, operationsManager: operationsManager});
         }
 
         function deleteRestaurant(restaurantName) {
@@ -4208,7 +3998,6 @@
                 
                 alert('تم حذف المطعم وجميع بياناته بنجاح');
                 logActivity('حذف مطعم', `تم حذف المطعم ${restaurantName} وجميع بياناته المرتبطة`);
-                syncAfterOperation('deleteRestaurant', {name: restaurantName});
             }
         }
 
@@ -4289,11 +4078,6 @@
             loadMyRestaurants();
             alert('تم نقل المطعم بنجاح');
             logActivity('نقل مطعم', `تم نقل المطعم ${currentTransferRestaurant} إلى مدير المنطقة ${areaManager} ومدير العمليات ${operationsManager}`);
-            syncAfterOperation('transferRestaurant', {
-                restaurant: currentTransferRestaurant,
-                newAreaManager: areaManager,
-                newOperationsManager: operationsManager
-            });
         }
 
         function openTransferAreaManagerModal(managerName) {
@@ -4341,10 +4125,6 @@
             populateVisitAreaManagerSelect();
             alert('تم نقل مدير المنطقة بنجاح');
             logActivity('نقل مدير منطقة', `تم نقل مدير المنطقة ${currentTransferAreaManager} إلى مدير العمليات ${operationsManager}`);
-            syncAfterOperation('transferAreaManager', {
-                areaManager: currentTransferAreaManager,
-                newOperationsManager: operationsManager
-            });
         }
 
         // ===== دوال مساعدة إضافية =====
@@ -4556,39 +4336,6 @@
             });
             document.getElementById('logoutBtn').addEventListener('click', doLogout);
             
-            // مزامنة مع Google Sheets
-            document.getElementById('syncWithGoogleSheets').addEventListener('click', syncWithGoogleSheets);
-            
-            // إعدادات Google Sheets
-            document.getElementById('setupGoogleScript').addEventListener('click', showGoogleScriptSetup);
-            document.getElementById('confirmGoogleScriptUrl').addEventListener('click', confirmGoogleScriptUrl);
-            document.getElementById('testGoogleConnection').addEventListener('click', testGoogleConnection);
-            document.getElementById('clearGoogleUrl').addEventListener('click', clearGoogleUrl);
-            
-            // المزامنة التلقائية
-            document.getElementById('autoSyncToggle').addEventListener('change', function() {
-                isAutoSyncEnabled = this.checked;
-                localStorage.setItem('auto_sync_enabled', this.checked);
-                
-                if (this.checked) {
-                    startAutoSync();
-                    updateAutoSyncStatus('مفعل - يعمل كل 5 دقائق');
-                    showSyncNotification('✅ تم تفعيل المزامنة التلقائية', 'success');
-                } else {
-                    stopAutoSync();
-                    updateAutoSyncStatus('غير مفعل');
-                    showSyncNotification('❌ تم إيقاف المزامنة التلقائية', 'warning');
-                }
-            });
-            
-            document.getElementById('testAutoSync').addEventListener('click', function() {
-                if (isAutoSyncEnabled) {
-                    autoSyncWithGoogleSheets();
-                } else {
-                    alert('⚠️ يرجى تفعيل المزامنة التلقائية أولاً');
-                }
-            });
-
             // إغلاق النماذج الجديدة
             document.querySelectorAll('.close-modal').forEach(btn => {
                 btn.addEventListener('click', function() {
@@ -4623,7 +4370,7 @@
                     // تحديث جميع الشاشات
                     updateAllUI();
                     
-                    showSyncNotification('✅ تم مسح جميع البيانات بنجاح', 'success');
+                    alert('✅ تم مسح جميع البيانات بنجاح');
                     logActivity('مسح جميع البيانات', 'تم مسح جميع بيانات الزيارات والمشاكل من قسم الإعدادات');
                 }
             });
@@ -4660,91 +4407,6 @@
             document.getElementById('settingsRestoreData').addEventListener('click', function() {
                 document.getElementById('importDataModal').style.display = 'flex';
             });
-
-            // مزامنة مع جوجل من الإعدادات
-            document.getElementById('settingsSyncWithGoogleSheets').addEventListener('click', function() {
-                syncWithGoogleSheets();
-            });
-        }
-
-        async function syncWithGoogleSheets() {
-            if (!GOOGLE_SCRIPT_URL) {
-                const setup = confirm('❌ لم يتم تعيين رابط Google Script.\n\nهل تريد تعيينه الآن؟');
-                if (setup) {
-                    showGoogleScriptSetup();
-                }
-                return;
-            }
-
-            try {
-                const userConfirmed = confirm(`هل تريد مزامنة جميع البيانات مع Google Sheets؟\n\n✅ الزيارات: ${visitsData.length} زيارة\n✅ المطاعم: ${restaurantsData.length} مطعم\n✅ المشاكل: ${problemsData.length} مشكلة`);
-                
-                if (!userConfirmed) return;
-
-                // استخدام getElementById مباشرة للزر في الإعدادات
-                const syncBtn = document.getElementById('syncWithGoogleSheets');
-                if (syncBtn) {
-                    const originalText = syncBtn.innerHTML;
-                    syncBtn.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> جاري المزامنة...';
-                    syncBtn.disabled = true;
-                }
-
-                const dataToSync = {
-                    action: 'syncData',
-                    visitsData: visitsData,
-                    restaurantsData: restaurantsData,
-                    problemsData: problemsData,
-                    usersData: usersData,
-                    userActivities: userActivities,
-                    timestamp: new Date().toISOString(),
-                    syncUser: currentUser ? currentUser.name : 'غير معروف',
-                    version: '2.0'
-                };
-
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(dataToSync)
-                });
-
-                if (!response.ok) {
-                    throw new Error(`فشل في الاتصال: ${response.status} ${response.statusText}`);
-                }
-
-                const result = await response.json();
-
-                if (result.success) {
-                    showSyncNotification('✅ تمت المزامنة بنجاح مع Google Sheets!', 'success');
-                    logActivity('مزامنة ناجحة مع Google Sheets', 
-                        `تم مزامنة ${visitsData.length} زيارة و ${restaurantsData.length} مطعم و ${problemsData.length} مشكلة`);
-                } else {
-                    throw new Error(result.error || 'فشل في المزامنة من جانب الخادم');
-                }
-
-            } catch (error) {
-                console.log('❌ خطأ في المزامنة:', error);
-                let errorMessage = 'حدث خطأ أثناء المزامنة:\n';
-                
-                if (error.message.includes('Failed to fetch')) {
-                    errorMessage += '• لا يمكن الاتصال بخادم Google\n';
-                    errorMessage += '• تحقق من اتصال الإنترنت\n';
-                    errorMessage += '• تأكد من صحة رابط Google Script\n';
-                } else if (error.message.includes('404')) {
-                    errorMessage += '• رابط Google Script غير صحيح\n';
-                    errorMessage += '• يرجى التحقق من الرابط وإعادة تعيينه\n';
-                } else {
-                    errorMessage += error.message;
-                }
-                
-                showSyncNotification('❌ ' + errorMessage, 'error');
-                
-            } finally {
-                const syncBtn = document.getElementById('syncWithGoogleSheets');
-                if (syncBtn) {
-                    syncBtn.innerHTML = '<i class="fab fa-google"></i> مزامنة مع Google Sheets';
-                    syncBtn.disabled = false;
-                }
-            }
         }
 
         function saveVisit() {
@@ -4858,9 +4520,6 @@
             visitsData.push(visit);
             saveAllData();
             
-            // === المزامنة الفورية ===
-            syncAfterOperation('saveVisit', visit);
-
             // === إضافة المشاكل إذا وجدت ===
             addProblemsFromVisit(visit);
 
@@ -4891,7 +4550,6 @@
                     week: visit.week
                 };
                 problemsData.push(problem);
-                syncAfterOperation('addProblem', problem);
             }
             
             // مشاكل السباكة
@@ -4908,7 +4566,6 @@
                     week: visit.week
                 };
                 problemsData.push(problem);
-                syncAfterOperation('addProblem', problem);
             }
             
             // مشاكل الصيانة (سخان-كهرباء)
@@ -4925,7 +4582,6 @@
                     week: visit.week
                 };
                 problemsData.push(problem);
-                syncAfterOperation('addProblem', problem);
             }
             
             // مشاكل الصيانة (تكييف-بارد)
@@ -4942,7 +4598,6 @@
                     week: visit.week
                 };
                 problemsData.push(problem);
-                syncAfterOperation('addProblem', problem);
             }
         }
 
@@ -5076,9 +4731,8 @@
             document.getElementById('editVisitModal').style.display = 'none';
             currentEditVisitId = null;
             
-            // حفظ البيانات ومزامنتها
+            // حفظ البيانات
             saveAllData();
-            syncAfterOperation('editVisit', visitsData[visitIndex]);
             
             // تحديث جميع الشاشات
             updateAllUI();
@@ -5113,7 +4767,6 @@
                 
                 if (existingProblem) {
                     existingProblem.description = description;
-                    syncAfterOperation('updateProblem', existingProblem);
                 } else {
                     const newProblem = {
                         id: problemsData.length > 0 ? Math.max(...problemsData.map(p => p.id)) + 1 : 1,
@@ -5127,7 +4780,6 @@
                         week: visit.week
                     };
                     problemsData.push(newProblem);
-                    syncAfterOperation('addProblem', newProblem);
                 }
             }
         }
@@ -5146,9 +4798,8 @@
                       p.week == visit.week)
                 );
                 
-                // حفظ البيانات ومزامنتها
+                // حفظ البيانات
                 saveAllData();
-                syncAfterOperation('deleteVisit', visit);
                 
                 updateAllUI();
                 
@@ -5178,14 +4829,14 @@
                 const areaManagerFilter = document.getElementById('reportAreaManager').value;
                 const operationsManagerFilter = document.getElementById('reportOperations').value;
                 
-                let title = "تقرير زيارات المطاعم - مطاعم نايف";
+                let title = "تقرير زيارات المطاعم - شركة نايف للأغذية";
                 
                 if (reportType === 'areaManager' && areaManagerFilter !== 'all') {
                     title = `تقرير السيد/ ${areaManagerFilter} مدير المنطقة`;
                 } else if (reportType === 'operationsManager' && operationsManagerFilter !== 'all') {
                     title = `تقرير السيد/ ${operationsManagerFilter} مدير العمليات`;
                 } else {
-                    title = "تقرير عام لزيارات المطاعم - مطاعم نايف";
+                    title = "تقرير عام لزيارات المطاعم - شركة نايف للأغذية";
                 }
                 
                 if (reportMonth && reportMonth !== 'all') {
@@ -5488,7 +5139,7 @@
             const reportMonth = document.getElementById('reportMonth').value;
             const reportYear = document.getElementById('reportYear').value;
             
-            let reportText = "تقرير زيارات المطاعم\n\n";
+            let reportText = "تقرير زيارات المطاعم - شركة نايف للأغذية\n\n";
             
             if (reportType === 'areaManager') {
                 reportText += "تقرير مدير المنطقة\n";
@@ -5587,16 +5238,25 @@
             });
         }
 
+        // ===== تحديث جميع عناصر الواجهة =====
+        function updateAllUI() {
+            loadDashboardStats();
+            loadRecentVisits();
+            loadMyRestaurants();
+            loadReportData();
+            loadProblems();
+            loadVisitsHistory();
+            loadSettingsData();
+            populateRestaurantSelects();
+            populateManagerSelects();
+            populateVisitAreaManagerSelect();
+        }
+
         // ===== التهيئة =====
         function initApp() {
             loadUsers();
             loadActivities();
-            loadGoogleScriptUrl();
-            loadAutoSyncSetting();
-            setupConnectionMonitoring();
-            
-            // تحميل البيانات من السحابة أو المحلية
-            loadDataFromGoogleSheets();
+            loadAllData();
             
             setupEventHandlers();
             populateRestaurantSelects();
