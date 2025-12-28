@@ -5281,54 +5281,56 @@
 
     </script>
 <script>
-    // 1. ضع رابط SheetDB الخاص بك هنا
+    // هذا الكود سيُضاف في نهاية ملفك دون التأثير على التصميم
+async function sendToCloud() {
+    // 1. ضع رابط الـ API الخاص بك هنا
     const myApiUrl = "https://sheetdb.io/api/v1/9whq1riztr1my"; 
 
-    // 2. وظيفة حفظ البيانات في السحابة
-    function saveToCloud() {
-        const btn = document.querySelector('button[onclick="saveToCloud()"]') || document.querySelector('button');
-        btn.innerText = "جاري الحفظ...";
+    const btn = document.getElementById('saveBtn'); // تأكد أن زر الحفظ عندك له id="saveBtn"
+    if(btn) {
+        btn.innerText = "جاري الحفظ بالسحابة...";
         btn.disabled = true;
+    }
 
-        // جمع البيانات من كل الخانات التي لها id
-        const data = {};
-        const inputs = document.querySelectorAll('input, select, textarea');
-        inputs.forEach(input => {
-            if(input.id) {
-                // نستخدم الـ id كاسم للعمود في جوجل
-                data[input.id] = input.value;
-            }
-        });
+    // 2. جمع البيانات تلقائياً من الـ 21 حقل التي صممتها أنت
+    const ids = [
+        'restaurant', 'month', 'year', 'week', 'sales', 'customers', 
+        'avgBill', 'customerProblems', 'itProblems', 'plumbingProblems', 
+        'maintenanceHeater', 'maintenanceAC', 'training', 'quality', 
+        'licenses', 'operationalTools', 'suggestions', 'other', 'date', 
+        'areaManagerName', 'operationsManagerName'
+    ];
 
-        // إرسال البيانات
-        fetch(myApiUrl, {
+    const data = {};
+    ids.forEach(id => {
+        const element = document.getElementById(id);
+        if(element) {
+            data[id] = element.value;
+        }
+    });
+
+    // 3. الإرسال للسحابة
+    try {
+        const response = await fetch(myApiUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ data: [data] })
-        })
-        .then(res => res.json())
-        .then(result => {
-            alert("تم حفظ البيانات في السحابة بنجاح!");
+        });
+
+        if (response.ok) {
+            alert("✅ تم الحفظ في السحابة بنجاح!");
+        } else {
+            alert("❌ فشل الحفظ، تأكد من رابط الـ API");
+        }
+    } catch (error) {
+        alert("❌ خطأ في الاتصال بالإنترنت");
+    } finally {
+        if(btn) {
             btn.innerText = "حفظ البيانات";
             btn.disabled = false;
-        })
-        .catch(err => {
-            alert("حدث خطأ في الاتصال بالسحابة");
-            btn.disabled = false;
-        });
+        }
     }
-
-    // 3. وظيفة جلب البيانات (للعرض)
-    function loadCloudData() {
-        fetch(myApiUrl)
-        .then(res => res.json())
-        .then(data => {
-            console.log("البيانات الحالية في السحابة:", data);
-            // هنا يمكننا إضافة كود لعرض البيانات في جدول لاحقاً
-        });
-    }
-
-    window.onload = loadCloudData;
+}
 </script> 
 </body>
 </html>
