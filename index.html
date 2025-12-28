@@ -5281,26 +5281,54 @@
 
     </script>
 <script>
-    // 1. ضع رابط الجسر الخاص بك هنا
-    const myApiUrl = "https://sheetdb.io/api/v1/9whq1riztr1my"; 
+    // 1. ضع رابط SheetDB الخاص بك هنا
+    const myApiUrl = "ضع_رابط_API_هنا"; 
 
-    // 2. هذا الجزء يرسل البيانات للسحابة عند الضغط على الزر
-    document.querySelector('form').addEventListener('submit', function(e) {
-        e.preventDefault(); // يمنع الصفحة من التحديث
-        
-        const formData = new FormData(this);
-        const data = Object.fromEntries(formData);
+    // 2. وظيفة حفظ البيانات في السحابة
+    function saveToCloud() {
+        const btn = document.querySelector('button[onclick="saveToCloud()"]') || document.querySelector('button');
+        btn.innerText = "جاري الحفظ...";
+        btn.disabled = true;
 
+        // جمع البيانات من كل الخانات التي لها id
+        const data = {};
+        const inputs = document.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            if(input.id) {
+                // نستخدم الـ id كاسم للعمود في جوجل
+                data[input.id] = input.value;
+            }
+        });
+
+        // إرسال البيانات
         fetch(myApiUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ data: [data] })
         })
-        .then(res => {
-            alert("تم حفظ بياناتك في السحابة بنجاح!");
-            this.reset(); // يفرغ الخانات بعد الإرسال
+        .then(res => res.json())
+        .then(result => {
+            alert("تم حفظ البيانات في السحابة بنجاح!");
+            btn.innerText = "حفظ البيانات";
+            btn.disabled = false;
+        })
+        .catch(err => {
+            alert("حدث خطأ في الاتصال بالسحابة");
+            btn.disabled = false;
         });
-    });
+    }
+
+    // 3. وظيفة جلب البيانات (للعرض)
+    function loadCloudData() {
+        fetch(myApiUrl)
+        .then(res => res.json())
+        .then(data => {
+            console.log("البيانات الحالية في السحابة:", data);
+            // هنا يمكننا إضافة كود لعرض البيانات في جدول لاحقاً
+        });
+    }
+
+    window.onload = loadCloudData;
 </script> 
 </body>
 </html>
